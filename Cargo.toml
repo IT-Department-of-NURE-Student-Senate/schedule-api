@@ -1,0 +1,5 @@
+[workspace]
+members = [
+    "schedule_api",
+    # "json_fixer"
+]
