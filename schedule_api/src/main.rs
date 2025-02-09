@@ -1,6 +1,8 @@
 #![allow(dead_code)]
 mod models;
 
-fn main() {
-    println!("Hello, world!");
+#[tokio::main]
+async fn main() -> Result<(), Error> {
+    env_logger::init();
+    Ok(())
 }
