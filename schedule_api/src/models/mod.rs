@@ -9,6 +9,7 @@ mod event;
 mod event_type;
 mod faculty;
 mod group;
+mod root;
 mod speciality;
 mod subject;
 mod teacher;
@@ -23,6 +24,7 @@ pub use event::Event;
 pub use event_type::EventType;
 pub use faculty::Faculty;
 pub use group::Group;
+pub use root::Root;
 pub use speciality::Speciality;
 pub use subject::Subject;
 pub use teacher::Teacher;
@@ -33,4 +35,3 @@ pub enum Error {
     #[error(transparent)]
     EventTypeError(#[from] event_type::Error),
 }
-
