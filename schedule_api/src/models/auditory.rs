@@ -1,6 +1,7 @@
 use super::AuditoryType;
+use serde::Deserialize;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct Auditory {
     id: i64,
     name: String,

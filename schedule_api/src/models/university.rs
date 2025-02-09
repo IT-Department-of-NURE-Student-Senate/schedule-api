@@ -1,10 +1,11 @@
 use super::{Building, Faculty};
+use serde::Deserialize;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct University {
-    full_name: String,
-    short_name: String,
+    pub full_name: String,
+    pub short_name: String,
 
-    faculties: Vec<Faculty>,
-    buildings: Vec<Building>,
+    pub faculties: Option<Vec<Faculty>>,
+    pub buildings: Option<Vec<Building>>,
 }

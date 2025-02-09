@@ -1,11 +1,12 @@
 use super::Group;
+use serde::Deserialize;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct Speciality {
     id: i64,
 
     full_name: String,
     short_name: String,
 
-    groups: Vec<Group>,
+    groups: Option<Vec<Group>>,
 }

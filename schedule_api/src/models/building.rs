@@ -1,6 +1,7 @@
 use super::Auditory;
+use serde::Deserialize;
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct Building {
     id: i64,
 
