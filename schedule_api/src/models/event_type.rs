@@ -56,14 +56,14 @@ mod tests {
 
     #[test]
     fn test_event_type_from_int() {
-        assert_eq!(EventType::try_from(0).unwrap(), EventType::Lecture);
-        assert_eq!(EventType::try_from(1).unwrap(), EventType::Practical);
-        assert_eq!(EventType::try_from(2).unwrap(), EventType::Laboratory);
-        assert_eq!(EventType::try_from(3).unwrap(), EventType::Consultation);
-        assert_eq!(EventType::try_from(4).unwrap(), EventType::FinalTest);
-        assert_eq!(EventType::try_from(5).unwrap(), EventType::Exam);
-        assert_eq!(EventType::try_from(6).unwrap(), EventType::CourseWork);
+        assert_eq!(EventType::try_from(1).unwrap(), EventType::Lecture);
+        assert_eq!(EventType::try_from(10).unwrap(), EventType::Practical);
+        assert_eq!(EventType::try_from(20).unwrap(), EventType::Laboratory);
+        assert_eq!(EventType::try_from(30).unwrap(), EventType::Consultation);
+        assert_eq!(EventType::try_from(40).unwrap(), EventType::FinalTest);
+        assert_eq!(EventType::try_from(50).unwrap(), EventType::Exam);
+        assert_eq!(EventType::try_from(60).unwrap(), EventType::CourseWork);
 
-        assert!(EventType::try_from(7).is_err());
+        assert!(EventType::try_from(70).is_err());
     }
 }
