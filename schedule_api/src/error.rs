@@ -1,11 +1,18 @@
+use crate::db;
 use crate::fetcher;
 use crate::models;
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error(transparent)]
-    ModelError(#[from] models::Error),
+    Model(#[from] models::Error),
 
     #[error(transparent)]
-    FetcherError(#[from] fetcher::Error),
+    Fetcher(#[from] fetcher::Error),
+
+    #[error(transparent)]
+    Db(#[from] db::Error),
+
+    #[error(transparent)]
+    SeaOrm(#[from] sea_orm::DbErr),
 }

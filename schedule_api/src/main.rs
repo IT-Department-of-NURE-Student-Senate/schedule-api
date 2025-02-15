@@ -1,19 +1,22 @@
 #![allow(dead_code)]
+mod db;
 mod error;
 mod fetcher;
 mod models;
 
 use error::Error;
-use fetcher::Fetcher;
+use schedule_migrator::Migrator;
+use sea_orm_migration::{MigratorTrait, SchemaManager};
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     env_logger::init();
 
-    let fetcher = Fetcher::new("http://cist.nure.ua/ias/app/tt")?;
-    let uni = fetcher.fetch_groups().await.unwrap();
+    let db = db::get_connection().await?;
 
-    println!("{:#?}", uni);
+    let _schema_manager = SchemaManager::new(&db);
+
+    Migrator::refresh(&db).await?;
 
     Ok(())
 }
