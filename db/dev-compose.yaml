@@ -1,33 +1,35 @@
 services:
-  postgres:
-    image: postgres:latest
-    container_name: schedule_postgres_container
-    restart: always
+  mariadb:
+    image: mariadb:latest
+    container_name: schedule_mariadb_container
+    restart: no
     environment:
-      POSTGRES_USER: schedule
-      POSTGRES_PASSWORD: schedule_pass
-      POSTGRES_DB: schedule
+      MARIADB_USER: schedule
+      MARIADB_PASSWORD: schedule_pass
+      MARIADB_ROOT_PASSWORD: root_pass
+      MARIADB_DATABASE: schedule
     ports:
-      - "5432:5432"
+      - "3306:3306"
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - db_data:/var/lib/mysql
     networks:
-      - mynetwork
+      - schedule_network
 
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: schedule_pgadmin_container
-    restart: always
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: schedule_phpmyadmin_container
+    restart: no
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin123
+      PMA_HOST: mariadb
+      PMA_USER: schedule
+      PMA_PASSWORD: schedule_pass
     ports:
-      - "5050:80"
+      - "8080:80"
     networks:
-      - mynetwork
+      - schedule_network
 
 networks:
-  mynetwork:
+  schedule_network:
 
 volumes:
   db_data:
