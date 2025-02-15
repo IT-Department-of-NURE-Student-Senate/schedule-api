@@ -4,6 +4,7 @@ mod m20250215_000001_create_faculty;
 mod m20250215_000002_create_department;
 mod m20250215_000003_create_direction;
 mod m20250215_000004_create_speciality;
+mod m20250215_000005_create_group;
 
 pub struct Migrator;
 
@@ -15,6 +16,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20250215_000002_create_department::Migration),
             Box::new(m20250215_000003_create_direction::Migration),
             Box::new(m20250215_000004_create_speciality::Migration),
+            Box::new(m20250215_000005_create_group::Migration),
         ]
     }
 }
