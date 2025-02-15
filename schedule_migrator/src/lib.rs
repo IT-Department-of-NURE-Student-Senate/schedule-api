@@ -8,6 +8,7 @@ mod m20250215_000005_create_group;
 mod m20250215_000006_create_teacher;
 mod m20250215_000007_create_subject;
 mod m20250215_000008_create_subject_to_teacher;
+mod m20250215_000009_create_building;
 
 pub struct Migrator;
 
@@ -23,6 +24,7 @@ impl MigratorTrait for Migrator {
             Box::new(m20250215_000006_create_teacher::Migration),
             Box::new(m20250215_000007_create_subject::Migration),
             Box::new(m20250215_000008_create_subject_to_teacher::Migration),
+            Box::new(m20250215_000009_create_building::Migration),
         ]
     }
 }
