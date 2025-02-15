@@ -1,8 +1,8 @@
 [workspace]
 
 members = [
-    "schedule_api",
-    # "json_fixer"
+    "schedule_api", 
+    "schedule_migrator",
 ]
 
 resolver = "3"
