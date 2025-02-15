@@ -12,6 +12,9 @@ mod m20250215_000009_create_building;
 mod m20250215_000010_create_auditory_type;
 mod m20250215_000011_create_auditory;
 mod m20250215_000012_create_auditory_type_to_auditory;
+mod m20250215_000013_create_event;
+mod m20250215_000014_create_event_to_group;
+mod m20250215_000015_create_event_to_teacher;
 
 pub struct Migrator;
 
@@ -31,6 +34,9 @@ impl MigratorTrait for Migrator {
             Box::new(m20250215_000010_create_auditory_type::Migration),
             Box::new(m20250215_000011_create_auditory::Migration),
             Box::new(m20250215_000012_create_auditory_type_to_auditory::Migration),
+            Box::new(m20250215_000013_create_event::Migration),
+            Box::new(m20250215_000014_create_event_to_group::Migration),
+            Box::new(m20250215_000015_create_event_to_teacher::Migration),
         ]
     }
 }
