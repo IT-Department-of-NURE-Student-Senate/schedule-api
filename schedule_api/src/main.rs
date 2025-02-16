@@ -3,6 +3,7 @@ mod db;
 mod error;
 mod fetcher;
 mod models;
+mod entities;
 
 use error::Error;
 use schedule_migrator::Migrator;
