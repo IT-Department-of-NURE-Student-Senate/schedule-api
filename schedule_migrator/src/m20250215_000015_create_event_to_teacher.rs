@@ -1,12 +1,12 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
-use crate::{m20250215_000005_create_group::Group, m20250215_000013_create_event::Event};
+use crate::{m20250215_000006_create_teacher::Teacher, m20250215_000013_create_event::Event};
 
 pub struct Migration;
 
 impl MigrationName for Migration {
     fn name(&self) -> &str {
-        "m_20250215_000014_create_event_to_group"
+        "m_20250215_000015_create_event_to_teacher"
     }
 }
 
@@ -16,23 +16,31 @@ impl MigrationTrait for Migration {
         manager
             .create_table(
                 Table::create()
-                    .table(EventToGroup::Table)
-                    .col(integer(EventToGroup::EventId))
-                    .col(integer(EventToGroup::GroupId))
-                    .primary_key(
-                        Index::create()
-                            .col(EventToGroup::EventId)
-                            .col(EventToGroup::GroupId),
+                    .table(EventToTeacher::Table)
+                    .col(
+                        ColumnDef::new(EventToTeacher::Id)
+                            .integer()
+                            .not_null()
+                            .primary_key()
+                            .auto_increment(),
+                    )
+                    .col(ColumnDef::new(EventToTeacher::EventId).integer().not_null())
+                    .col(
+                        ColumnDef::new(EventToTeacher::TeacherId)
+                            .integer()
+                            .not_null(),
                     )
                     .foreign_key(
                         ForeignKey::create()
-                            .from(EventToGroup::Table, EventToGroup::EventId)
+                            .name("FK_event_to_teacher_event")
+                            .from(EventToTeacher::Table, EventToTeacher::EventId)
                             .to(Event::Table, Event::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
-                            .from(EventToGroup::Table, EventToGroup::GroupId)
-                            .to(Group::Table, Group::Id),
+                            .name("FK_event_to_teacher_teacher")
+                            .from(EventToTeacher::Table, EventToTeacher::TeacherId)
+                            .to(Teacher::Table, Teacher::Id),
                     )
                     .to_owned(),
             )
@@ -41,14 +49,15 @@ impl MigrationTrait for Migration {
 
     async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
         manager
-            .drop_table(Table::drop().table(EventToGroup::Table).to_owned())
+            .drop_table(Table::drop().table(EventToTeacher::Table).to_owned())
             .await
     }
 }
 
 #[derive(Iden)]
-pub enum EventToGroup {
+pub enum EventToTeacher {
     Table,
+    Id,
     EventId,
-    GroupId,
+    TeacherId,
 }

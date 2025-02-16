@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
 use crate::m20250215_000009_create_building::Building;
 
@@ -17,13 +17,19 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(Auditory::Table)
-                    .col(pk_auto(Auditory::Id))
-                    .col(string(Auditory::Name))
-                    .col(integer(Auditory::BuildingId))
-                    .col(integer(Auditory::Floor))
-                    .col(boolean(Auditory::HavePower))
+                    .col(
+                        ColumnDef::new(Auditory::Id)
+                            .integer()
+                            .not_null()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Auditory::Name).string().not_null())
+                    .col(ColumnDef::new(Auditory::BuildingId).integer().not_null())
+                    .col(ColumnDef::new(Auditory::Floor).integer().not_null())
+                    .col(ColumnDef::new(Auditory::HavePower).boolean().not_null())
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_auditory_building")
                             .from(Auditory::Table, Auditory::BuildingId)
                             .to(Building::Table, Building::Id),
                     )

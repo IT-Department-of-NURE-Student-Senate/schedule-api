@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
 use crate::{
     m20250215_000003_create_direction::Direction, m20250215_000004_create_speciality::Speciality,
@@ -19,18 +19,20 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(Group::Table)
-                    .col(pk_auto(Group::Id))
-                    .col(string(Group::FullName))
-                    .col(string(Group::ShortName))
-                    .col(integer(Group::DirectionId))
-                    .col(integer_null(Group::SpecialityId))
+                    .col(ColumnDef::new(Group::Id).integer().not_null().primary_key())
+                    .col(ColumnDef::new(Group::FullName).string().not_null())
+                    .col(ColumnDef::new(Group::ShortName).string().not_null())
+                    .col(ColumnDef::new(Group::DirectionId).integer().not_null())
+                    .col(ColumnDef::new(Group::SpecialityId).integer().null())
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_group_direction")
                             .from(Group::Table, Group::DirectionId)
                             .to(Direction::Table, Direction::Id),
                     )
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_group_speciality")
                             .from(Group::Table, Group::SpecialityId)
                             .to(Speciality::Table, Speciality::Id),
                     )

@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
 pub struct Migration;
 
@@ -15,9 +15,14 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(Building::Table)
-                    .col(pk_auto(Building::Id))
-                    .col(string(Building::FullName))
-                    .col(string(Building::ShortName))
+                    .col(
+                        ColumnDef::new(Building::Id)
+                            .integer()
+                            .not_null()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Building::FullName).string().not_null())
+                    .col(ColumnDef::new(Building::ShortName).string().not_null())
                     .to_owned(),
             )
             .await

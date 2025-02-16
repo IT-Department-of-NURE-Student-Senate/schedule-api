@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
 use crate::m20250215_000001_create_faculty::Faculty;
 
@@ -17,12 +17,18 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(Department::Table)
-                    .col(pk_auto(Department::Id))
-                    .col(string(Department::FullName))
-                    .col(string(Department::ShortName))
-                    .col(integer(Department::FacultyId))
+                    .col(
+                        ColumnDef::new(Department::Id)
+                            .integer()
+                            .not_null()
+                            .primary_key(),
+                    )
+                    .col(ColumnDef::new(Department::FullName).string().not_null())
+                    .col(ColumnDef::new(Department::ShortName).string().not_null())
+                    .col(ColumnDef::new(Department::FacultyId).integer().not_null())
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_department_faculty")
                             .from(Department::Table, Department::FacultyId)
                             .to(Faculty::Table, Faculty::Id),
                     )

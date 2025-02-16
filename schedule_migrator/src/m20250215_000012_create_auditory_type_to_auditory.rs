@@ -1,4 +1,4 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use sea_orm_migration::prelude::*;
 
 use crate::{
     m20250215_000010_create_auditory_type::AuditoryType, m20250215_000011_create_auditory::Auditory,
@@ -19,15 +19,26 @@ impl MigrationTrait for Migration {
             .create_table(
                 Table::create()
                     .table(AuditoryTypeToAuditory::Table)
-                    .col(integer(AuditoryTypeToAuditory::AuditoryId))
-                    .col(integer(AuditoryTypeToAuditory::AuditoryTypeId))
-                    .primary_key(
-                        Index::create()
-                            .col(AuditoryTypeToAuditory::AuditoryId)
-                            .col(AuditoryTypeToAuditory::AuditoryTypeId),
+                    .col(
+                        ColumnDef::new(AuditoryTypeToAuditory::Id)
+                            .integer()
+                            .not_null()
+                            .primary_key()
+                            .auto_increment(),
+                    )
+                    .col(
+                        ColumnDef::new(AuditoryTypeToAuditory::AuditoryId)
+                            .integer()
+                            .not_null(),
+                    )
+                    .col(
+                        ColumnDef::new(AuditoryTypeToAuditory::AuditoryTypeId)
+                            .integer()
+                            .not_null(),
                     )
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_auditory_type_to_auditory_auditory")
                             .from(
                                 AuditoryTypeToAuditory::Table,
                                 AuditoryTypeToAuditory::AuditoryId,
@@ -36,6 +47,7 @@ impl MigrationTrait for Migration {
                     )
                     .foreign_key(
                         ForeignKey::create()
+                            .name("FK_auditory_type_to_auditory_auditory_type")
                             .from(
                                 AuditoryTypeToAuditory::Table,
                                 AuditoryTypeToAuditory::AuditoryTypeId,
@@ -61,6 +73,7 @@ impl MigrationTrait for Migration {
 #[derive(Iden)]
 pub enum AuditoryTypeToAuditory {
     Table,
+    Id,
     AuditoryId,
     AuditoryTypeId,
 }
