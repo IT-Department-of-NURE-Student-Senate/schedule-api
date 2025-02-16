@@ -9,39 +9,17 @@ pub async fn get_connection() -> Result<DatabaseConnection, Error> {
     let db_backend = db.get_database_backend();
 
     let db = match db_backend {
-        DbBackend::Postgres => {
-            db.execute(Statement::from_string(
-                db_backend,
-                format!("DROP DATABASE IF EXISTS \"{}\";", DB_NAME),
-            ))
-            .await?;
-
-            db.execute(Statement::from_string(
-                db_backend,
-                format!("CREATE DATABASE \"{}\";", DB_NAME),
-            ))
-            .await?;
-
-            let url = format!("{}/{}", DATABASE_URL, DB_NAME);
-            Database::connect(&url).await?
-        }
         DbBackend::MySql => {
             db.execute(Statement::from_string(
                 db_backend,
-                format!("DROP DATABASE IF EXISTS `{}`;", DB_NAME),
-            ))
-            .await?;
-
-            db.execute(Statement::from_string(
-                db_backend,
-                format!("CREATE DATABASE `{}`;", DB_NAME),
+                format!("CREATE DATABASE IF NOT EXISTS `{}`;", DB_NAME),
             ))
             .await?;
 
             let url = format!("{}/{}", DATABASE_URL, DB_NAME);
             Database::connect(&url).await?
         }
-        DbBackend::Sqlite => db,
+        _ => return Err(Error::UnsupportedDbBackend(db_backend)),
     };
 
     Ok(db)
@@ -49,6 +27,9 @@ pub async fn get_connection() -> Result<DatabaseConnection, Error> {
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
+    #[error("Unsupported database backend: {0:?}")]
+    UnsupportedDbBackend(DbBackend),
+
     #[error(transparent)]
     DbErr(#[from] sea_orm::DbErr),
 }

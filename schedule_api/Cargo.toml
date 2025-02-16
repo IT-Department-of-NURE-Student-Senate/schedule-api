@@ -16,7 +16,8 @@ serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 
 encoding_rs = "0.8"
+bytes = "1.10.0"
 
-sea-orm = { version = "1.1", features = ["sqlx-mysql", "sqlx-sqlite", "runtime-tokio-native-tls", "macros"] }
+sea-orm = { version = "1.1", features = [ "sqlx-mysql", "runtime-tokio-native-tls", "macros" ] }
 sea-orm-migration = "1.1.0"
 schedule_migrator = { path = "../schedule_migrator" }
