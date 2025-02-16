@@ -28,13 +28,15 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_group_direction")
                             .from(Group::Table, Group::DirectionId)
-                            .to(Direction::Table, Direction::Id),
+                            .to(Direction::Table, Direction::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_group_speciality")
                             .from(Group::Table, Group::SpecialityId)
-                            .to(Speciality::Table, Speciality::Id),
+                            .to(Speciality::Table, Speciality::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

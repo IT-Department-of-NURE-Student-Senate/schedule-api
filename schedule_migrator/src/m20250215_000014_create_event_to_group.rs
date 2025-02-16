@@ -30,13 +30,15 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_event_to_group_event")
                             .from(EventToGroup::Table, EventToGroup::EventId)
-                            .to(Event::Table, Event::Id),
+                            .to(Event::Table, Event::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_event_to_group_group")
                             .from(EventToGroup::Table, EventToGroup::GroupId)
-                            .to(Group::Table, Group::Id),
+                            .to(Group::Table, Group::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

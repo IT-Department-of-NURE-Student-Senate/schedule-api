@@ -48,13 +48,15 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_subject_to_teacher_subject")
                             .from(SubjectToTeacher::Table, SubjectToTeacher::SubjectId)
-                            .to(Subject::Table, Subject::Id),
+                            .to(Subject::Table, Subject::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_subject_to_teacher_teacher")
                             .from(SubjectToTeacher::Table, SubjectToTeacher::TeacherId)
-                            .to(Teacher::Table, Teacher::Id),
+                            .to(Teacher::Table, Teacher::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

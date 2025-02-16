@@ -31,7 +31,8 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_auditory_building")
                             .from(Auditory::Table, Auditory::BuildingId)
-                            .to(Building::Table, Building::Id),
+                            .to(Building::Table, Building::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

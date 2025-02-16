@@ -30,7 +30,8 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_speciality_direction")
                             .from(Speciality::Table, Speciality::DirectionId)
-                            .to(Direction::Table, Direction::Id),
+                            .to(Direction::Table, Direction::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

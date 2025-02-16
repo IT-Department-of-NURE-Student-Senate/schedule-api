@@ -43,7 +43,8 @@ impl MigrationTrait for Migration {
                                 AuditoryTypeToAuditory::Table,
                                 AuditoryTypeToAuditory::AuditoryId,
                             )
-                            .to(Auditory::Table, Auditory::Id),
+                            .to(Auditory::Table, Auditory::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .foreign_key(
                         ForeignKey::create()
@@ -52,7 +53,8 @@ impl MigrationTrait for Migration {
                                 AuditoryTypeToAuditory::Table,
                                 AuditoryTypeToAuditory::AuditoryTypeId,
                             )
-                            .to(AuditoryType::Table, AuditoryType::Id),
+                            .to(AuditoryType::Table, AuditoryType::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )

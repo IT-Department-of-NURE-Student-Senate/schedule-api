@@ -34,13 +34,15 @@ impl MigrationTrait for Migration {
                         ForeignKey::create()
                             .name("FK_event_to_teacher_event")
                             .from(EventToTeacher::Table, EventToTeacher::EventId)
-                            .to(Event::Table, Event::Id),
+                            .to(Event::Table, Event::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .foreign_key(
                         ForeignKey::create()
                             .name("FK_event_to_teacher_teacher")
                             .from(EventToTeacher::Table, EventToTeacher::TeacherId)
-                            .to(Teacher::Table, Teacher::Id),
+                            .to(Teacher::Table, Teacher::Id)
+                            .on_delete(ForeignKeyAction::Cascade),
                     )
                     .to_owned(),
             )
