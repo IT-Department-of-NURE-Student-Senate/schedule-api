@@ -22,16 +22,16 @@ pub use department::Department;
 pub use direction::Direction;
 pub use event::Event;
 pub use event_type::EventType;
-pub use faculty::Faculty;
+pub use faculty::{FacultyWithDepartments, FacultyWithDirections};
 pub use group::Group;
-pub use root::Root;
+pub use root::{AuditoryRoot, GroupRoot, PodrRoot};
 pub use speciality::Speciality;
 pub use subject::Subject;
 pub use teacher::Teacher;
-pub use university::University;
+pub use university::{AuditoryUniversity, GroupUniversity, PodrUniversity};
 
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error(transparent)]
-    EventTypeError(#[from] event_type::Error),
+    EventType(#[from] event_type::Error),
 }

@@ -3,10 +3,10 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct Department {
-    id: i64,
+    pub id: i64,
 
-    full_name: String,
-    short_name: String,
+    pub full_name: String,
+    pub short_name: String,
 
-    teachers: Option<Vec<Teacher>>,
+    pub teachers: Option<Vec<Teacher>>,
 }

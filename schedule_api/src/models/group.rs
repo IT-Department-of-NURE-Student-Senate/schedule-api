@@ -1,7 +1,7 @@
 use serde::Deserialize;
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, PartialEq, Eq, Hash)]
 pub struct Group {
-    id: i64,
-    name: String,
+    pub id: i64,
+    pub name: String,
 }

@@ -3,11 +3,11 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct Direction {
-    id: i64,
+    pub id: i64,
 
-    full_name: String,
-    short_name: String,
+    pub full_name: String,
+    pub short_name: String,
 
-    specialties: Option<Vec<Speciality>>,
-    groups: Option<Vec<Group>>,
+    pub specialties: Option<Vec<Speciality>>,
+    pub groups: Option<Vec<Group>>,
 }

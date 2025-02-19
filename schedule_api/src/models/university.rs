@@ -1,11 +1,26 @@
-use super::{Building, Faculty};
+use super::{Building, FacultyWithDepartments, FacultyWithDirections};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct University {
+pub struct PodrUniversity {
     pub full_name: String,
     pub short_name: String,
 
-    pub faculties: Option<Vec<Faculty>>,
-    pub buildings: Option<Vec<Building>>,
+    pub faculties: Vec<FacultyWithDepartments>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct GroupUniversity {
+    pub full_name: String,
+    pub short_name: String,
+
+    pub faculties: Vec<FacultyWithDirections>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct AuditoryUniversity {
+    pub full_name: String,
+    pub short_name: String,
+
+    pub buildings: Vec<Building>,
 }

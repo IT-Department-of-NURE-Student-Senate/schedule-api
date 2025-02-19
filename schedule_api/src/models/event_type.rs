@@ -1,12 +1,14 @@
 use std::fmt::Display;
 
+use serde::Deserialize;
+
 #[derive(Debug, thiserror::Error)]
 pub enum Error {
     #[error("Can't match {0} to an event type")]
     UnknownEventType(i32),
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Deserialize, Clone, Copy, PartialEq, Eq)]
 pub enum EventType {
     Lecture,
     Practical,

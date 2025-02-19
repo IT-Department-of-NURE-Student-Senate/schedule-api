@@ -2,12 +2,21 @@ use super::{Department, Direction};
 use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
-pub struct Faculty {
-    id: i64,
+pub struct FacultyWithDepartments {
+    pub id: i64,
 
-    full_name: String,
-    short_name: String,
+    pub full_name: String,
+    pub short_name: String,
 
-    departments: Option<Vec<Department>>,
-    directions: Option<Vec<Direction>>,
+    pub departments: Option<Vec<Department>>,
+}
+
+#[derive(Debug, Deserialize)]
+pub struct FacultyWithDirections {
+    pub id: i64,
+
+    pub full_name: String,
+    pub short_name: String,
+
+    pub directions: Option<Vec<Direction>>,
 }

@@ -1,8 +1,9 @@
 use chrono::NaiveDateTime;
+use serde::Deserialize;
 
 use super::{Auditory, EventType, Group, Subject, Teacher};
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize)]
 pub struct Event {
     id: i64,
 
