@@ -2,6 +2,6 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize, PartialEq, Eq, Hash)]
 pub struct Group {
-    pub id: i64,
+    pub id: i32,
     pub name: String,
 }

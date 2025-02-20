@@ -3,20 +3,20 @@ use serde::Deserialize;
 
 #[derive(Debug, Deserialize)]
 pub struct FacultyWithDepartments {
-    pub id: i64,
+    pub id: i32,
 
     pub full_name: String,
     pub short_name: String,
 
-    pub departments: Option<Vec<Department>>,
+    pub departments: Vec<Department>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct FacultyWithDirections {
-    pub id: i64,
+    pub id: i32,
 
     pub full_name: String,
     pub short_name: String,
 
-    pub directions: Option<Vec<Direction>>,
+    pub directions: Vec<Direction>,
 }

@@ -8,5 +8,5 @@ pub struct Speciality {
     pub full_name: String,
     pub short_name: String,
 
-    pub groups: Option<Vec<Group>>,
+    pub groups: Vec<Group>,
 }
