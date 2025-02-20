@@ -1,24 +1,31 @@
 #![allow(dead_code)]
 mod db;
+mod entities;
 mod error;
 mod fetcher;
 mod models;
-mod entities;
 
 use error::Error;
-use schedule_migrator::Migrator;
-use sea_orm_migration::{MigratorTrait, SchemaManager};
+use fetcher::Fetcher;
+// use schedule_migrator::Migrator;
+// use sea_orm_migration::{MigratorTrait, SchemaManager};
 
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     env_logger::init();
     dotenvy::dotenv().ok();
 
-    let db = db::get_connection().await?;
+    let repository = db::Repository::new().await?;
 
-    let _schema_manager = SchemaManager::new(&db);
+    repository.run_migrations().await?;
 
-    Migrator::refresh(&db).await?;
+    // let fetcher = fetcher::WebFetcher::new().await.unwrap();
+
+    let fetcher = fetcher::FileFetcher::new();
+
+    let fetched = fetcher.fetch_podr().await?;
+
+    repository.update_from_podr(fetched).await?;
 
     Ok(())
 }
