@@ -12,6 +12,7 @@ use sea_orm_migration::{MigratorTrait, SchemaManager};
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     env_logger::init();
+    dotenvy::dotenv().ok();
 
     let db = db::get_connection().await?;
 
