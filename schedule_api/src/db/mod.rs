@@ -3,7 +3,7 @@ use std::collections::HashSet;
 use schedule_migrator::Migrator;
 use sea_orm::{
     ConnectionTrait, Database, DatabaseConnection, DbBackend, EntityTrait, Set, Statement,
-    TransactionTrait,
+    TransactionTrait, sea_query::OnConflict,
 };
 use sea_orm_migration::MigratorTrait;
 
@@ -97,18 +97,33 @@ impl Repository {
 
         if !faculties_to_insert.is_empty() {
             entities::faculty::Entity::insert_many(faculties_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::faculty::Column::Id)
+                        .update_column(entities::faculty::Column::Id)
+                        .to_owned(),
+                )
                 .exec(&txn)
                 .await?;
         }
 
         if !departments_to_insert.is_empty() {
             entities::department::Entity::insert_many(departments_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::department::Column::Id)
+                        .update_column(entities::department::Column::Id)
+                        .to_owned(),
+                )
                 .exec(&txn)
                 .await?;
         }
 
         if !teachers_to_insert.is_empty() {
             entities::teacher::Entity::insert_many(teachers_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::teacher::Column::Id)
+                        .update_column(entities::teacher::Column::Id)
+                        .to_owned(),
+                )
                 .exec(&txn)
                 .await?;
         }
@@ -117,6 +132,7 @@ impl Repository {
 
         Ok(())
     }
+
 }
 
 #[derive(Debug, thiserror::Error)]
