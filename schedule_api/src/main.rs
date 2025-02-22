@@ -23,9 +23,13 @@ async fn main() -> Result<(), Error> {
 
     let fetcher = fetcher::FileFetcher::new();
 
-    let fetched = fetcher.fetch_podr().await?;
+    let fetched_podr = fetcher.fetch_podr().await?;
 
-    repository.update_from_podr(fetched).await?;
+    repository.update_from_podr(fetched_podr).await?;
+
+    let fetched_groups = fetcher.fetch_group().await?;
+
+    repository.update_from_group(fetched_groups).await?;
 
     Ok(())
 }

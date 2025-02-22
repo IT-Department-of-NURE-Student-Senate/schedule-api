@@ -133,6 +133,129 @@ impl Repository {
         Ok(())
     }
 
+    pub async fn update_from_group(&self, data: models::GroupRoot) -> Result<(), Error> {
+        let faculties = data.university.faculties;
+
+        let mut faculty_ids = HashSet::new();
+        let mut faculties_to_insert = Vec::new();
+
+        let mut direction_ids = HashSet::new();
+        let mut directions_to_insert = Vec::new();
+
+        let mut speciality_ids = HashSet::new();
+        let mut specialities_to_insert = Vec::new();
+
+        let mut group_ids = HashSet::new();
+        let mut groups_to_insert = Vec::new();
+
+        for faculty in faculties {
+            if faculty_ids.insert(faculty.id) {
+                faculties_to_insert.push(entities::faculty::ActiveModel {
+                    id: Set(faculty.id),
+                    full_name: Set(faculty.full_name),
+                    short_name: Set(faculty.short_name),
+                });
+            }
+
+            for direction in faculty.directions {
+                if direction_ids.insert(direction.id) {
+                    directions_to_insert.push(entities::direction::ActiveModel {
+                        id: Set(direction.id),
+                        full_name: Set(direction.full_name),
+                        short_name: Set(direction.short_name),
+                        faculty_id: Set(faculty.id),
+                    });
+                }
+
+                if let Some(specialities) = direction.specialities {
+                    for speciality in specialities {
+                        if speciality_ids.insert(speciality.id) {
+                            specialities_to_insert.push(entities::speciality::ActiveModel {
+                                id: Set(speciality.id),
+                                full_name: Set(speciality.full_name),
+                                short_name: Set(speciality.short_name),
+                                direction_id: Set(direction.id),
+                            });
+                        }
+
+                        for group in speciality.groups {
+                            if group_ids.insert(group.id) {
+                                groups_to_insert.push(entities::group::ActiveModel {
+                                    id: Set(group.id),
+                                    name: Set(group.name),
+                                    direction_id: Set(direction.id),
+                                    speciality_id: Set(Some(speciality.id)),
+                                });
+                            }
+                        }
+                    }
+                }
+
+                if let Some(groups) = direction.groups {
+                    for group in groups {
+                        if group_ids.insert(group.id) {
+                            groups_to_insert.push(entities::group::ActiveModel {
+                                id: Set(group.id),
+                                name: Set(group.name),
+                                direction_id: Set(direction.id),
+                                speciality_id: Set(None),
+                            });
+                        }
+                    }
+                }
+            }
+        }
+
+        let txn = self.db.begin().await?;
+
+        if !faculties_to_insert.is_empty() {
+            entities::faculty::Entity::insert_many(faculties_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::faculty::Column::Id)
+                        .update_column(entities::faculty::Column::Id)
+                        .to_owned(),
+                )
+                .exec(&txn)
+                .await?;
+        }
+
+        if !directions_to_insert.is_empty() {
+            entities::direction::Entity::insert_many(directions_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::direction::Column::Id)
+                        .update_column(entities::direction::Column::Id)
+                        .to_owned(),
+                )
+                .exec(&txn)
+                .await?;
+        }
+
+        if !specialities_to_insert.is_empty() {
+            entities::speciality::Entity::insert_many(specialities_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::speciality::Column::Id)
+                        .update_column(entities::speciality::Column::Id)
+                        .to_owned(),
+                )
+                .exec(&txn)
+                .await?;
+        }
+
+        if !groups_to_insert.is_empty() {
+            entities::group::Entity::insert_many(groups_to_insert)
+                .on_conflict(
+                    OnConflict::column(entities::group::Column::Id)
+                        .update_column(entities::group::Column::Id)
+                        .to_owned(),
+                )
+                .exec(&txn)
+                .await?;
+        }
+
+        txn.commit().await?;
+
+        Ok(())
+    }
 }
 
 #[derive(Debug, thiserror::Error)]
