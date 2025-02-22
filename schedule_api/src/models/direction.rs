@@ -8,6 +8,6 @@ pub struct Direction {
     pub full_name: String,
     pub short_name: String,
 
-    pub specialties: Vec<Speciality>,
-    pub groups: Vec<Group>,
+    pub specialities: Option<Vec<Speciality>>,
+    pub groups: Option<Vec<Group>>,
 }

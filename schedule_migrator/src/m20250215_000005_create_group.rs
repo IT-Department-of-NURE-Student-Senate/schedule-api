@@ -20,8 +20,7 @@ impl MigrationTrait for Migration {
                 Table::create()
                     .table(Group::Table)
                     .col(ColumnDef::new(Group::Id).integer().not_null().primary_key())
-                    .col(ColumnDef::new(Group::FullName).string().not_null())
-                    .col(ColumnDef::new(Group::ShortName).string().not_null())
+                    .col(ColumnDef::new(Group::Name).string().not_null())
                     .col(ColumnDef::new(Group::DirectionId).integer().not_null())
                     .col(ColumnDef::new(Group::SpecialityId).integer().null())
                     .foreign_key(
@@ -54,8 +53,7 @@ impl MigrationTrait for Migration {
 pub enum Group {
     Table,
     Id,
-    FullName,
-    ShortName,
+    Name,
     DirectionId,
     SpecialityId,
 }
